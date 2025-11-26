@@ -19,8 +19,19 @@ public partial class MainPage : ContentPage
     }
 
 
-    private void AddButton_OnClicked(object? sender, EventArgs e)
+    private async void AddButton_OnClicked(object? sender, EventArgs e)
     {
+        if (string.IsNullOrWhiteSpace(Title.Text))
+        {
+            await DisplayAlert("Error", "Title is empty", "Ok");
+            return;
+        }
+
+        if (DueDate.Date < DateTime.Now.Date)
+        {
+            await DisplayAlert("Error", "Due date is earlier than today", "Ok");
+            return;
+        }
         FakeDb.AddToDo(Title.Text, DueDate.Date);
         Title.Text = string.Empty;
         DueDate.Date=DateTime.Now;
