@@ -24,11 +24,22 @@
                        <StackLayout Orientation="Horizontal">
                            <Label Text="{Binding Title}"   
                                   VerticalOptions="Center"  
-                                  /> 
-                           
+                                  > 
+                           <Label.Triggers>
+                               <DataTrigger TargetType="Label" Binding="{Binding IsComplete}" Value="True">
+                                   <Setter Property="TextDecorations" Value="Strikethrough" />
+                               </DataTrigger>
+                           </Label.Triggers>
+                           </Label>
                            <Label 
                                Text="{Binding DueDate, StringFormat=' (Due: {0:dd/MM})'}"
-                               VerticalOptions="Center"/>
+                               VerticalOptions="Center">
+                               <Label.Triggers>
+                                   <DataTrigger TargetType="Label" Binding="{Binding IsComplete}" Value="True">
+                                       <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                   </DataTrigger>
+                               </Label.Triggers>
+                           </Label>
                            <CheckBox VerticalOptions="Center" IsChecked="{Binding IsComplete}" IsEnabled="False" ></CheckBox>
                          
                        </StackLayout>
