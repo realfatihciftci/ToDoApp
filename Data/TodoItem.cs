@@ -7,6 +7,7 @@ public class TodoItem
     public DateTime DueDate { get; set; }
     public DateTime CreatedDate {get; set;}
     public bool IsComplete { get; set; }
+    public bool IsOverdue => !IsComplete && DueDate < DateTime.Now;
 
     public TodoItem()
     {

@@ -29,6 +29,9 @@
                                <DataTrigger TargetType="Label" Binding="{Binding IsComplete}" Value="True">
                                    <Setter Property="TextDecorations" Value="Strikethrough" />
                                </DataTrigger>
+                               <DataTrigger TargetType="Label" Binding="{Binding IsOverdue}" Value="True">
+                                   <Setter Property="TextColor" Value="Red"/>
+                               </DataTrigger>
                            </Label.Triggers>
                            </Label>
                            <Label 
@@ -37,6 +40,9 @@
                                <Label.Triggers>
                                    <DataTrigger TargetType="Label" Binding="{Binding IsComplete}" Value="True">
                                        <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                   </DataTrigger>
+                                   <DataTrigger TargetType="Label" Binding="{Binding IsOverdue}" Value="True">
+                                       <Setter Property="TextColor" Value="Red"/>
                                    </DataTrigger>
                                </Label.Triggers>
                            </Label>
