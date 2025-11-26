@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CetTodoApp.MainPage">
 
-   <VerticalStackLayout Padding="20" Margin="20">
+   <Grid RowDefinitions="Auto, *" Padding="20" Margin="20">
        
-       <Border Margin="20" >
+       <Border Grid.Row="0" Margin="20" >
            <VerticalStackLayout Margin="10" Padding="10">
                <Entry x:Name="Title" Placeholder="Enter a todo Item" />
                <HorizontalStackLayout Padding="20" Margin="10">
@@ -17,7 +17,7 @@
                
            </VerticalStackLayout>
        </Border>
-       <ListView x:Name="TasksListView" ItemSelected="TasksListView_OnItemSelected">
+       <ListView Grid.Row="1" x:Name="TasksListView" ItemSelected="TasksListView_OnItemSelected">
            <ListView.ItemTemplate>
                <DataTemplate>
                    <ViewCell>
@@ -55,6 +55,6 @@
            </ListView>
        
        
-   </VerticalStackLayout>
+   </Grid>
 
 </ContentPage>
