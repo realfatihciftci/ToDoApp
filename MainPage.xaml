@@ -7,7 +7,7 @@
        
        <Border Grid.Row="0" Margin="20" >
            <VerticalStackLayout Margin="10" Padding="10">
-               <Entry x:Name="Title" Placeholder="Enter a todo Item" />
+               <Entry x:Name="TodoTitleEntry" Placeholder="Enter a todo Item" />
                <HorizontalStackLayout Padding="20" Margin="10">
                     <Label Text="Due Date :" VerticalOptions="Center"></Label>
                     <DatePicker x:Name="DueDate" VerticalOptions="Center" ></DatePicker>

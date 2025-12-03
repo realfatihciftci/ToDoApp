@@ -4,53 +4,60 @@ namespace CetTodoApp;
 
 public partial class MainPage : ContentPage
 {
-   
-
-    public MainPage()
+    private readonly TodoDatabase _database;
+    public MainPage(TodoDatabase database)
     {
         InitializeComponent();
-        FakeDb.AddToDo("Test1" ,DateTime.Now.AddDays(-1));
-        FakeDb.AddToDo("Test2" ,DateTime.Now.AddDays(1));
-        FakeDb.AddToDo("Test3" ,DateTime.Now);
-        RefreshListView();
-        ;
-
-
+        _database = database;
     }
-
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await RefreshListView();
+    }
 
     private async void AddButton_OnClicked(object? sender, EventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(Title.Text))
+        if (string.IsNullOrWhiteSpace(TodoTitleEntry.Text))
         {
             await DisplayAlert("Error", "Title is empty", "Ok");
             return;
         }
 
-        if (DueDate.Date < DateTime.Now.Date)
+        var newItem = new TodoItem
         {
-            await DisplayAlert("Error", "Due date is earlier than today", "Ok");
-            return;
-        }
-        FakeDb.AddToDo(Title.Text, DueDate.Date);
-        Title.Text = string.Empty;
-        DueDate.Date=DateTime.Now;
-        RefreshListView();
-    }
+            Title = TodoTitleEntry.Text,
+            DueDate = DueDate.Date,
+            CreatedDate = DateTime.Now,
+        };
+        await _database.SaveItemAsync(newItem);
 
-    private void RefreshListView()
+        TodoTitleEntry.Text = string.Empty;
+        DueDate.Date = DateTime.Now;
+
+        await RefreshListView();
+    }
+    
+    private async Task RefreshListView()
     {
-        TasksListView.ItemsSource = null;
-        TasksListView.ItemsSource = FakeDb.Data.Where(x => !x.IsComplete ||
-                                                           (x.IsComplete && x.DueDate > DateTime.Now.AddDays(-1)))
+        var allItems = await _database.GetItemsAsync();
+
+        // Filtreleme ve sıralama
+        TasksListView.ItemsSource = allItems
+            .Where(x => !x.IsComplete || (x.IsComplete && x.DueDate > DateTime.Now.AddDays(-1)))
+            .OrderBy(x => x.IsComplete)
+            .ThenBy(x => x.DueDate)
             .ToList();
     }
 
-    private void TasksListView_OnItemSelected(object? sender, SelectedItemChangedEventArgs e)
+    private async void TasksListView_OnItemSelected(object? sender, SelectedItemChangedEventArgs e)
     {
-        var item = e.SelectedItem as TodoItem;
-       FakeDb.ChageCompletionStatus(item);
-       RefreshListView();
-       
+        if (e.SelectedItem is TodoItem item)
+        {
+            item.IsComplete = !item.IsComplete;
+            await _database.SaveItemAsync(item);
+            await RefreshListView();
+            TasksListView.SelectedItem = null;
+        }
     }
 }
