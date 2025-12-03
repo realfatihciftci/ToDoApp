@@ -1,7 +1,9 @@
-﻿namespace CetTodoApp.Data;
+﻿using SQLite;
+namespace CetTodoApp.Data;
 
 public class TodoItem
 {
+    [PrimaryKey, AutoIncrement]
     public int Id {get; set;}
     public string? Title {get; set;}
     public DateTime DueDate { get; set; }
