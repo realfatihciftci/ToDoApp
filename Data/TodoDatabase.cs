@@ -3,7 +3,7 @@ namespace CetTodoApp.Data;
 
 public class TodoDatabase
 {
-    private SQLiteAsyncConnection _database;
+    private SQLiteAsyncConnection? _database;
 
     private const string DbName = "TodoDatabase.db3";
     private static string DbPath => Path.Combine(FileSystem.AppDataDirectory, DbName);
